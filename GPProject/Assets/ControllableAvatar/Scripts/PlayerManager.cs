@@ -12,6 +12,11 @@ public class PlayerManager : MonoBehaviour
     public bool isInteracting;
     public bool isUsingRootMotion;
 
+    public float health = 100;
+    public float stamina = 100;
+    public float dodgeCost = 25;
+    public int money = 0;
+
     private void Awake()
     {
         inputManager = GetComponent<InputManager>();

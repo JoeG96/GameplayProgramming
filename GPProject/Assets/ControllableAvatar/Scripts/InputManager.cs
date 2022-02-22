@@ -28,6 +28,7 @@ public class InputManager : MonoBehaviour
     public bool rt_Input;   // Right Trigger                            // Heavy Attack
     public bool lb_Input;   // Left Bumper (Left Shoulder gamepad)      // Block
     public bool lt_Input;   // Left Trigger                             // ??
+    public bool start_Input;// Start Button
 
     private void Awake()
     {
@@ -67,6 +68,9 @@ public class InputManager : MonoBehaviour
             playerControls.PlayerActions.LT.performed += i => lt_Input = true;
             playerControls.PlayerActions.LT.canceled += i => lt_Input = false;
 
+            playerControls.PlayerActions.Start.performed += i => start_Input = true;
+            playerControls.PlayerActions.Start.canceled += i => start_Input = false;
+
         }
         playerControls.Enable();
     }
@@ -94,14 +98,13 @@ public class InputManager : MonoBehaviour
         cameraInputX = cameraInput.x;
         cameraInputY = cameraInput.y;
 
-
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
         animatorManager.UpdateAnimatorValues(0, moveAmount);
     }
 
     private void HandleSprintingInput()
     {
-        if (y_Input && moveAmount > 0.5f)
+        if (lb_Input && moveAmount > 0.5f)
         {
             playerLocomotion.isSprinting = true;
         }
@@ -130,7 +133,6 @@ public class InputManager : MonoBehaviour
 
         if (y_Input)
         { }
-
 
     }
 

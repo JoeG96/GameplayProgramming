@@ -30,13 +30,16 @@ public class PlayerLocomotion : MonoBehaviour
     public float sprintingSpeed = 8;
     public float rotateSpeed = 5;
 
-    [Header("Jump Speeds")]
+    [Header("Jumping")]
     public float jumpHeight = 3;
     public float gravityIntensity = -10;
+    public float doubleJumpTimer = 0;
+    public bool doubleJumpEnable = false;
+    private bool firstJump = false;
 
     [Header("Boosts")]
-    private float boostTimer = 0;
-    private bool isSpeedBoosted = false;
+    public float boostTimer = 0;
+    public bool isSpeedBoosted = false;
     
 
     private void Awake()
@@ -78,6 +81,16 @@ public class PlayerLocomotion : MonoBehaviour
                 sprintingSpeed = 8;
                 boostTimer = 0;
                 isSpeedBoosted = false;
+            }
+        }
+
+        if (doubleJumpEnable)
+        {
+            doubleJumpTimer += Time.deltaTime;
+            if (doubleJumpTimer >= 5)
+            {
+                doubleJumpTimer = 0;
+                doubleJumpEnable = false;
             }
         }
 
@@ -179,11 +192,24 @@ public class PlayerLocomotion : MonoBehaviour
         {
             animatorManager.animator.SetBool("isJumping", true);
             animatorManager.PlayTargetAnimation("2Hand-Sword-Jump", false);
-
             float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
             Vector3 playerVelocity = moveDirection;
             playerVelocity.y = jumpingVelocity;
             rigidBody.velocity = playerVelocity;
+            firstJump = true;
+        }
+        else if (doubleJumpEnable)
+        {
+            if (firstJump)
+            {
+                animatorManager.animator.SetBool("isJumping", true);
+                animatorManager.PlayTargetAnimation("2Hand-Sword-Jump", false);
+                float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
+                Vector3 playerVelocity = moveDirection;
+                playerVelocity.y = jumpingVelocity;
+                rigidBody.velocity = playerVelocity;
+                firstJump = false;
+            }
         }
     }
 
@@ -192,7 +218,12 @@ public class PlayerLocomotion : MonoBehaviour
         if (playerManager.isInteracting)
             return;
 
+        if (playerManager.stamina < playerManager.dodgeCost)
+            return;
+
         animatorManager.PlayTargetAnimation("2Hand-Sword-DiveRoll-Forward1", true, true);
+        playerManager.stamina -= playerManager.dodgeCost;
+        Debug.Log("Stamina = " + playerManager.stamina);
         // Put i-frame toggle here
 
     }
@@ -204,7 +235,23 @@ public class PlayerLocomotion : MonoBehaviour
             isSpeedBoosted = true;
             runningSpeed = runningSpeed += 3;
             sprintingSpeed = sprintingSpeed += 3;
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
         }
+
+        if (other.tag == "Double Jump")
+        {
+            doubleJumpEnable = true;
+            //Destroy(other.gameObject);
+        }
+
+        if (other.tag == "Stamina Pickup")
+        {
+            playerManager.stamina += 25;
+            Debug.Log("Stamina = " + playerManager.stamina);
+        }
+
+        if (other.tag == "Health Pickup")
+        { }
+
     }
 }
