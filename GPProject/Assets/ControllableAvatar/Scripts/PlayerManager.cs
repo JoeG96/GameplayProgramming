@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     public bool isInteracting;
     public bool isUsingRootMotion;
 
+    [Header("Player Stats")]
     public float health = 100;
     public float stamina = 100;
     public float dodgeCost = 25;
