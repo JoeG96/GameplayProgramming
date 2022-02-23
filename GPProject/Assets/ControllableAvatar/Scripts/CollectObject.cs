@@ -7,9 +7,16 @@ public class CollectObject : MonoBehaviour
     public AudioSource collectSound;
     ParticleSystem particles;
 
+    private void Awake()
+    {
+        particles = GetComponent<ParticleSystem>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         collectSound.Play();
-        Destroy(gameObject);
+        particles.Play();
+        Destroy(gameObject, 1);
     }
+
 }

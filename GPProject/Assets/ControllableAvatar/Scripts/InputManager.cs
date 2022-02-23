@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     PlayerControls playerControls;
     PlayerLocomotion playerLocomotion;
     AnimatorManager animatorManager;
+    PlayerManager playerManager;
 
     public Vector2 movementInput;
     public Vector2 cameraInput;
@@ -34,6 +35,7 @@ public class InputManager : MonoBehaviour
     {
         animatorManager = GetComponent<AnimatorManager>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
+        playerManager = GetComponent<PlayerManager>();
     }
 
     private void OnEnable()
@@ -132,7 +134,18 @@ public class InputManager : MonoBehaviour
         }
 
         if (y_Input)
-        { }
+        {
+            if (playerManager.currentHealth > 1)
+            {
+                playerManager.TakeDamage();
+            }
+
+            if (playerManager.currentStamina > 1)
+            {
+                playerManager.UseStamina();
+            }
+           
+        }
 
     }
 

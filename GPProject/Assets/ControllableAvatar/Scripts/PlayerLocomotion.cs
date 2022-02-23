@@ -38,7 +38,7 @@ public class PlayerLocomotion : MonoBehaviour
     private bool firstJump = false;
 
     [Header("Boosts")]
-    public float boostTimer = 0;
+    public float speedBoostTimer = 0;
     public bool isSpeedBoosted = false;
     
 
@@ -74,12 +74,12 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (isSpeedBoosted)
         {
-            boostTimer += Time.deltaTime;
-            if (boostTimer >= 5)
+            speedBoostTimer += Time.deltaTime;
+            if (speedBoostTimer >= 5)
             {
                 runningSpeed = 5;
                 sprintingSpeed = 8;
-                boostTimer = 0;
+                speedBoostTimer = 0;
                 isSpeedBoosted = false;
             }
         }
@@ -218,12 +218,12 @@ public class PlayerLocomotion : MonoBehaviour
         if (playerManager.isInteracting)
             return;
 
-        if (playerManager.stamina < playerManager.dodgeCost)
+        if (playerManager.currentStamina < playerManager.dodgeCost)
             return;
 
         animatorManager.PlayTargetAnimation("2Hand-Sword-DiveRoll-Forward1", true, true);
-        playerManager.stamina -= playerManager.dodgeCost;
-        Debug.Log("Stamina = " + playerManager.stamina);
+        playerManager.currentStamina -= playerManager.dodgeCost;
+        Debug.Log("Stamina = " + playerManager.currentStamina);
         // Put i-frame toggle here
 
     }
@@ -235,23 +235,27 @@ public class PlayerLocomotion : MonoBehaviour
             isSpeedBoosted = true;
             runningSpeed = runningSpeed += 3;
             sprintingSpeed = sprintingSpeed += 3;
-            //Destroy(other.gameObject);
         }
 
         if (other.tag == "Double Jump")
         {
             doubleJumpEnable = true;
-            //Destroy(other.gameObject);
         }
 
         if (other.tag == "Stamina Pickup")
         {
-            playerManager.stamina += 25;
-            Debug.Log("Stamina = " + playerManager.stamina);
+            playerManager.currentStamina += 25;
         }
 
         if (other.tag == "Health Pickup")
-        { }
+        {
+            playerManager.currentHealth += 25;
+        }
+
+        if (other.tag == "Money Pickup")
+        {
+            playerManager.money += 10;
+        }
 
     }
 }
