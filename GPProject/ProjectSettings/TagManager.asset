@@ -7,6 +7,10 @@ TagManager:
   - Shadow
   - Collide
   - SpeedBoost
+  - Double Jump
+  - Stamina Pickup
+  - Health Pickup
+  - Money Pickup
   layers:
   - Default
   - TransparentFX
