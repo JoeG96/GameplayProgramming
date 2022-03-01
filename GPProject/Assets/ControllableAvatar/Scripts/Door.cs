@@ -5,27 +5,31 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
 
-    public bool isOpen = false;
-    public bool isRotatingDoor = true;
+    public Transform doorObject;
+    public Transform buttonObject;
+    public bool buttonPressed;
+    public bool isOpen;
+    public bool isRotatingDoor;
     public float speed = 1f;
 
-    [Header("Rotation")]
-    public float rotationAmount = 90f;
-    public float forwardDirection = 0;
+    [Header("Rotation Config")]
+    public float rotationAmount;
+    public float forwardDirection;
 
-    [Header("Sliding")]
+    [Header("Sliding Config")]
     public Vector3 slideDirection = Vector3.back;
-    public float slideAmount = 1.9f;
+    public float slideAmount;
 
-    private Vector3 StartRotation;
-    private Vector3 StartPosition;
+    private Vector3 startRotation;
+    private Vector3 startPosition;
     private Vector3 forward;
 
     private Coroutine animationCoroutine;
 
     private void Awake()
     {
-        StartRotation = transform.rotation.eulerAngles;
+        startRotation = transform.rotation.eulerAngles;
+        startPosition = transform.position;
         forward = transform.right;
     }
 
@@ -72,16 +76,16 @@ public class Door : MonoBehaviour
 
     private IEnumerator DoRotationOpen(float forwardAmount)
     {
-        Quaternion startRotation = transform.rotation;
+        Quaternion StartRotation = transform.rotation;
         Quaternion endRotation;
 
         if (forwardAmount >= forwardDirection)
         {
-            endRotation = Quaternion.Euler(new Vector3(0, StartRotation.y - rotationAmount, 0));
+            endRotation = Quaternion.Euler(new Vector3(0, startRotation.y - rotationAmount, 0));
         }
         else
         {
-            endRotation = Quaternion.Euler(new Vector3(0, StartRotation.y + rotationAmount, 0));
+            endRotation = Quaternion.Euler(new Vector3(0, startRotation.y + rotationAmount, 0));
         }
 
         isOpen = true;
@@ -89,7 +93,7 @@ public class Door : MonoBehaviour
         float time = 0;
         while (time < 1)
         {
-            transform.rotation = Quaternion.Slerp(startRotation, endRotation, time);
+            transform.rotation = Quaternion.Slerp(StartRotation, endRotation, time);
             yield return null;
             time += Time.deltaTime * speed;
         }
@@ -97,14 +101,14 @@ public class Door : MonoBehaviour
 
     private IEnumerator DoRotationClose()
     {
-        Quaternion startRotation = transform.rotation;
-        Quaternion endRotation = Quaternion.Euler(StartRotation);
+        Quaternion StartRotation = transform.rotation;
+        Quaternion endRotation = Quaternion.Euler(startRotation);
 
         isOpen = false;
         float time = 0;
         while (time < 1)
         {
-            transform.rotation = Quaternion.Slerp(startRotation, endRotation, time);
+            transform.rotation = Quaternion.Slerp(StartRotation, endRotation, time);
             yield return null;
             time += Time.deltaTime * speed;
         }
@@ -112,14 +116,14 @@ public class Door : MonoBehaviour
 
     private IEnumerator DoSlidingOpen()
     {
-        Vector3 endPosition = StartPosition + slideAmount * slideDirection;
-        Vector3 startPosition = transform.position;
+        Vector3 endPosition = startPosition + slideAmount * slideDirection;
+        Vector3 StartPosition = transform.position;
 
         float time = 0;
         isOpen = true;
         while (time < 1)
         {
-            transform.position = Vector3.Lerp(startPosition, endPosition, time);
+            transform.position = Vector3.Lerp(StartPosition, endPosition, time);
             yield return null;
             time += Time.deltaTime * speed;
         }
@@ -127,16 +131,17 @@ public class Door : MonoBehaviour
 
     private IEnumerator DoSlidingClose()
     {
-        Vector3 endPosition = StartPosition;
-        Vector3 startPosition = transform.position;
+        Vector3 endPosition = startPosition;
+        Vector3 StartPosition = transform.position;
 
         float time = 0;
         isOpen = false;
         while (time < 1)
         {
-            transform.position = Vector3.Lerp(startPosition, endPosition, time);
+            transform.position = Vector3.Lerp(StartPosition, endPosition, time);
             yield return null;
             time += Time.deltaTime * speed;
         }
     }
+
 }

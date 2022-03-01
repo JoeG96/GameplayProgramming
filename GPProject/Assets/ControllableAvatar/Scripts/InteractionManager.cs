@@ -7,13 +7,13 @@ public class InteractionManager : MonoBehaviour
 {
 
     public TextMeshPro useText;
-    public Transform Camera;
+    public Transform playerObject;
     public float maxUseDistance = 5f;
     public LayerMask useLayers;
 
     public void OnInteract()
     {
-        if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit hit, maxUseDistance, useLayers))
+        if (Physics.Raycast(playerObject.position, playerObject.forward, out RaycastHit hit, maxUseDistance, useLayers))
         {
             if (hit.collider.TryGetComponent<Door>(out Door door))
             {
@@ -31,7 +31,7 @@ public class InteractionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit hit, maxUseDistance, useLayers) 
+        if (Physics.Raycast(playerObject.position, playerObject.forward, out RaycastHit hit, maxUseDistance, useLayers) 
             && hit.collider.TryGetComponent<Door>(out Door door))
         {
             if (door.isOpen)
@@ -43,8 +43,8 @@ public class InteractionManager : MonoBehaviour
                 useText.SetText("Open \"X\"");
             }
             useText.gameObject.SetActive(true);
-            useText.transform.position = hit.point - (hit.point - Camera.position).normalized * 0.01f;
-            useText.transform.rotation = Quaternion.LookRotation((hit.point - Camera.position).normalized);
+            useText.transform.position = hit.point - (hit.point - playerObject.position).normalized * 0.01f;
+            useText.transform.rotation = Quaternion.LookRotation((hit.point - playerObject.position).normalized);
         }
         else
         {
