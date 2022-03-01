@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DisplayIcon : MonoBehaviour
 {
 
-    PlayerLocomotion playerLocomotion;
+
     public Image customImage;
 
     private void Awake()
@@ -17,16 +17,10 @@ public class DisplayIcon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
-        if (playerLocomotion.isSpeedBoosted)
-        {
-
-        }
+/*        if (playerLocomotion.isSpeedBoosted)
+        { }
 
         if (playerLocomotion.doubleJumpEnable)
-        {
-
-        }
-
+        { }*/
     }
 }

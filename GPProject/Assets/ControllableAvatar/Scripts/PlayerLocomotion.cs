@@ -40,6 +40,10 @@ public class PlayerLocomotion : MonoBehaviour
     [Header("Boosts")]
     public float speedBoostTimer = 0;
     public bool isSpeedBoosted = false;
+
+/*    [Header("Attacks")]
+    private bool attack1 = false;
+    private bool attack2 = false;*/
     
 
     private void Awake()
@@ -226,6 +230,27 @@ public class PlayerLocomotion : MonoBehaviour
         Debug.Log("Stamina = " + playerManager.currentStamina);
         // Put i-frame toggle here
 
+    }
+
+    public void HandleAttack()
+    {
+        if (playerManager.isInteracting)
+            return;
+        animatorManager.PlayTargetAnimation("2Hand-Sword-Attack2", true);
+        /*
+        if (inputManager.rb_Input)
+        {
+            animatorManager.PlayTargetAnimation("2Hand-Sword-Attack4", true, true);
+        }*/
+
+    }  
+    
+    public void HandleInteract()
+    {
+        if (playerManager.isInteracting)
+            return;
+
+        animatorManager.PlayTargetAnimation("buttonPush", true, false);
     }
 
     private void OnTriggerEnter(Collider other)

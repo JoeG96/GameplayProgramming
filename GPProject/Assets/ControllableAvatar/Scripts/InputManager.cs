@@ -21,15 +21,20 @@ public class InputManager : MonoBehaviour
     public float horizontalInput;
 
     [Header ("Inputs")]
-    public bool y_Input;    // Y Button (north gamepad)                 // ??
-    public bool a_Input;    // A Button (south gamepad)                 // Jump
-    public bool b_Input;    // B Button (east gamepad)                  // Dodge
-    public bool x_Input;    // X Button (west gamepad)                  // Interact
-    public bool rb_Input;   // Right Bumper (Right Shoulder gamepad)    // Light Attack
-    public bool rt_Input;   // Right Trigger                            // Heavy Attack
-    public bool lb_Input;   // Left Bumper (Left Shoulder gamepad)      // Block
-    public bool lt_Input;   // Left Trigger                             // ??
-    public bool start_Input;// Start Button
+    public bool y_Input;        // Y Button (north gamepad)                 // ??
+    public bool a_Input;        // A Button (south gamepad)                 // Jump
+    public bool b_Input;        // B Button (east gamepad)                  // Dodge
+    public bool x_Input;        // X Button (west gamepad)                  // Interact
+    public bool rb_Input;       // Right Bumper (Right Shoulder gamepad)    // Light Attack
+    public bool rt_Input;       // Right Trigger                            // Heavy Attack
+    public bool lb_Input;       // Left Bumper (Left Shoulder gamepad)      // Block
+    public bool lt_Input;       // Left Trigger                             // ??
+    public bool start_Input;    // Start Button
+    public bool dpadD_Input;    // D-pad Down
+    public bool dpadU_Input;    // D-pad Up
+    public bool dpadL_Input;    // D-pad Left
+    public bool dpadR_Input;    // D-pad Right
+
 
     private void Awake()
     {
@@ -72,6 +77,18 @@ public class InputManager : MonoBehaviour
 
             playerControls.PlayerActions.Start.performed += i => start_Input = true;
             playerControls.PlayerActions.Start.canceled += i => start_Input = false;
+
+            playerControls.PlayerActions.DpadDown.performed += i => dpadD_Input = true;
+            playerControls.PlayerActions.DpadDown.canceled += i => dpadD_Input = false;
+
+            playerControls.PlayerActions.DpadUp.performed += i => dpadU_Input = true;
+            playerControls.PlayerActions.DpadUp.canceled += i => dpadU_Input = false;
+
+            playerControls.PlayerActions.DpadLeft.performed += i => dpadL_Input = true;
+            playerControls.PlayerActions.DpadLeft.canceled += i => dpadL_Input = false;
+
+            playerControls.PlayerActions.DpadRight.performed += i => dpadR_Input = true;
+            playerControls.PlayerActions.DpadRight.canceled += i => dpadR_Input = false;
 
         }
         playerControls.Enable();
@@ -129,24 +146,22 @@ public class InputManager : MonoBehaviour
     {
         if (x_Input)
         {
+            playerLocomotion.HandleInteract();
             // X INPUT
             // Interact
         }
 
-        if (y_Input)
+        if (dpadU_Input)
+        {  /*D-pad Up Input*/ }
+
+        if (dpadD_Input)
         {
             if (playerManager.currentHealth > 1)
-            {
-                playerManager.TakeDamage();
-            }
+            { playerManager.TakeDamage(); }
 
             if (playerManager.currentStamina > 1)
-            {
-                playerManager.UseStamina();
-            }
-           
+            { playerManager.UseStamina(); }
         }
-
     }
 
     private void HandleDodgeInput()
@@ -160,16 +175,22 @@ public class InputManager : MonoBehaviour
     private void HandleAttackInput()
     {
         if (rt_Input)
-        { }
+        {
+            playerLocomotion.HandleAttack();
+        }
 
         if (rb_Input)
-        { }
+        {
+            
+        }
 
         if (lb_Input)
         { }
 
         if (lt_Input)
-        { }
+        { 
+            //playerLocomotion.HandleBlock();
+        }
     }
 
 }

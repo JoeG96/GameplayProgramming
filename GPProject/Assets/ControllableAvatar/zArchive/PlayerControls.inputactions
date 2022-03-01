@@ -94,7 +94,7 @@
                     "id": "ee416aa3-a462-4ea5-8177-60ed90e05ca7",
                     "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Move",
                     "isComposite": false,
@@ -105,7 +105,7 @@
                     "id": "9aa1361c-e532-4705-98b8-2f65488e6e10",
                     "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Move",
                     "isComposite": false,
@@ -116,7 +116,7 @@
                     "id": "f2e8fe0f-5937-464e-84c1-3b85d308f049",
                     "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Move",
                     "isComposite": false,
@@ -127,7 +127,7 @@
                     "id": "18a1e5a6-85e0-419b-981d-ad9a82b8df2b",
                     "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Move",
                     "isComposite": false,
@@ -259,7 +259,7 @@
                     "id": "fae95dd6-3fe6-4451-b9d5-ab43ab2cfba7",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Hold"
                 },
                 {
                     "name": "LB",
@@ -273,6 +273,38 @@
                     "name": "LT",
                     "type": "Button",
                     "id": "fc1690e6-e389-4ecc-901c-84e77efdd259",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold"
+                },
+                {
+                    "name": "DpadDown",
+                    "type": "Button",
+                    "id": "015202a3-c6a1-45c7-b853-8dbe68e3e806",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DpadUp",
+                    "type": "Button",
+                    "id": "3cf32442-e465-4c33-8c47-8924f61b0ba8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DpadLeft",
+                    "type": "Button",
+                    "id": "32bc5068-6361-48a0-a281-5da7028000ec",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DpadRight",
+                    "type": "Button",
+                    "id": "d6897ac5-90dc-4ce8-be8a-465285727480",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -408,6 +440,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "LT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92d27d67-ae11-4848-9d24-bbe378339fd1",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DpadDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "af6df2b9-917e-4c32-821d-02265273a5d6",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DpadUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d60620de-6e6c-4314-8104-44b5bf795e1b",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DpadLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8d2fdbf4-62d0-454d-bd75-49abb3c8d44f",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DpadRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
