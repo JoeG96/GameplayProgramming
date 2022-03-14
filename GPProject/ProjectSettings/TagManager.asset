@@ -12,6 +12,7 @@ TagManager:
   - Health Pickup
   - Money Pickup
   - Door Button
+  - Cutscene Camera
   layers:
   - Default
   - TransparentFX
