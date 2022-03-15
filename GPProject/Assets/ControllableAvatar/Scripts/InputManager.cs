@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
     AnimatorManager animatorManager;
     PlayerManager playerManager;
 
+    [Header("Axis Inputs")]
     public Vector2 movementInput;
     public Vector2 cameraInput;
 
@@ -21,7 +22,7 @@ public class InputManager : MonoBehaviour
     public float verticalInput;
     public float horizontalInput;
 
-    [Header ("Inputs")]
+    [Header ("Button Inputs")]
     public bool y_Input;        // Y Button (north gamepad)                 // ??
     public bool a_Input;        // A Button (south gamepad)                 // Jump
     public bool b_Input;        // B Button (east gamepad)                  // Dodge
@@ -36,7 +37,8 @@ public class InputManager : MonoBehaviour
     public bool dpadL_Input;    // D-pad Left
     public bool dpadR_Input;    // D-pad Right
 
-    [SerializeField] CinemachineVirtualCamera freeLookCam;
+    [Header("Cameras")]
+    [SerializeField] CinemachineFreeLook freeLookCam;
     [SerializeField] CinemachineVirtualCamera lockOnCam;
 
 
@@ -86,27 +88,25 @@ public class InputManager : MonoBehaviour
             playerControls.PlayerActions.DpadDown.canceled += i => dpadD_Input = false;
 
             playerControls.PlayerActions.DpadUp.performed += i => dpadU_Input = true;
-            playerControls.PlayerActions.DpadUp.canceled += i => dpadU_Input = false;
+            //playerControls.PlayerActions.DpadUp.canceled += i => dpadU_Input = false;
 
             playerControls.PlayerActions.DpadLeft.performed += i => dpadL_Input = true;
-            playerControls.PlayerActions.DpadLeft.canceled += i => dpadL_Input = false;
+            //playerControls.PlayerActions.DpadLeft.canceled += i => dpadL_Input = false;
 
             playerControls.PlayerActions.DpadRight.performed += i => dpadR_Input = true;
-            playerControls.PlayerActions.DpadRight.canceled += i => dpadR_Input = false;
+            //playerControls.PlayerActions.DpadRight.canceled += i => dpadR_Input = false;
 
         }
         playerControls.Enable();
 
-        CinemachineCameraSwitcher.Register(freeLookCam);
-        CinemachineCameraSwitcher.Register(lockOnCam);
-        CinemachineCameraSwitcher.SwitchCamera(freeLookCam);
+        freeLookCam.Priority = 10;
+        lockOnCam.Priority = 0;
     }
 
     private void OnDisable()
     {
         playerControls.Disable();
-        CinemachineCameraSwitcher.Unregister(freeLookCam);
-        CinemachineCameraSwitcher.Unregister(lockOnCam);
+
     }
 
     public void HandleAllInputs()
@@ -158,21 +158,18 @@ public class InputManager : MonoBehaviour
         if (x_Input)
         {
             playerLocomotion.HandleInteract();
-            // X INPUT
-            // Interact
+
         }
 
-        if (dpadU_Input)
-        {  /*D-pad Up Input*/ }
 
-        if (dpadD_Input)
+/*        if (dpadD_Input)
         {
             if (playerManager.currentHealth > 1)
             { playerManager.TakeDamage(); }
 
             if (playerManager.currentStamina > 1)
             { playerManager.UseStamina(); }
-        }
+        }*/
     }
 
     private void HandleDodgeInput()
@@ -208,15 +205,64 @@ public class InputManager : MonoBehaviour
     {
         if (rb_Input)
         {
-            if (CinemachineCameraSwitcher.isActiveCamera(freeLookCam))
-            {
-                CinemachineCameraSwitcher.SwitchCamera(lockOnCam);
-            }
-            else if (CinemachineCameraSwitcher.isActiveCamera(lockOnCam))
-            {
-                CinemachineCameraSwitcher.SwitchCamera(freeLookCam);
-            }
+            SwitchCamera();   
         }
+
+        if (dpadR_Input)
+        {
+            dpadR_Input = false;
+            freeLookCam.m_XAxis.Value += 90;
+            DisableRecenter();
+            Invoke("EnableRecenter", 5f);
+        }
+
+        if (dpadL_Input)
+        {
+            dpadL_Input = false;
+            freeLookCam.m_XAxis.Value -= 90;
+            DisableRecenter();
+            Invoke("EnableRecenter", 5f);
+        }
+
+        if (dpadU_Input)
+        {
+            dpadU_Input = false;
+            freeLookCam.m_XAxis.Value = 0;
+            DisableRecenter();
+            Invoke("EnableRecenter", 5f);
+        }
+        
+        if (dpadD_Input)
+        {
+            dpadD_Input = false;
+            freeLookCam.m_XAxis.Value = 180;
+            DisableRecenter();
+            Invoke("EnableRecenter", 5f);
+        }
+    }
+
+    private void SwitchCamera()
+    {
+        if (freeLookCam.Priority == 10)
+        {
+            freeLookCam.Priority = 0;
+            lockOnCam.Priority = 10;
+        }
+        else
+        {
+            freeLookCam.Priority = 10;
+            lockOnCam.Priority = 0;
+        }
+    }
+
+    private void DisableRecenter()
+    {
+        freeLookCam.m_RecenterToTargetHeading.m_enabled = false;
+    }
+
+    private void EnableRecenter()
+    {
+        freeLookCam.m_RecenterToTargetHeading.m_enabled = true;
     }
 
 }
