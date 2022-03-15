@@ -13,6 +13,9 @@ TagManager:
   - Money Pickup
   - Door Button
   - Cutscene Camera
+  - Enemy
+  - Friendly
+  - Object
   layers:
   - Default
   - TransparentFX

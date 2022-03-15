@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class InputManager : MonoBehaviour
 {
@@ -34,6 +35,9 @@ public class InputManager : MonoBehaviour
     public bool dpadU_Input;    // D-pad Up
     public bool dpadL_Input;    // D-pad Left
     public bool dpadR_Input;    // D-pad Right
+
+    [SerializeField] CinemachineVirtualCamera freeLookCam;
+    [SerializeField] CinemachineVirtualCamera lockOnCam;
 
 
     private void Awake()
@@ -92,11 +96,17 @@ public class InputManager : MonoBehaviour
 
         }
         playerControls.Enable();
+
+        CinemachineCameraSwitcher.Register(freeLookCam);
+        CinemachineCameraSwitcher.Register(lockOnCam);
+        CinemachineCameraSwitcher.SwitchCamera(freeLookCam);
     }
 
     private void OnDisable()
     {
         playerControls.Disable();
+        CinemachineCameraSwitcher.Unregister(freeLookCam);
+        CinemachineCameraSwitcher.Unregister(lockOnCam);
     }
 
     public void HandleAllInputs()
@@ -107,6 +117,7 @@ public class InputManager : MonoBehaviour
         HandleInteractionInput();
         HandleDodgeInput();
         HandleAttackInput();
+        HandleControlsInput();
     }
 
     private void HandleMovementInput()
@@ -190,6 +201,21 @@ public class InputManager : MonoBehaviour
         if (lt_Input)
         { 
             //playerLocomotion.HandleBlock();
+        }
+    }
+
+    private void HandleControlsInput()
+    {
+        if (rb_Input)
+        {
+            if (CinemachineCameraSwitcher.isActiveCamera(freeLookCam))
+            {
+                CinemachineCameraSwitcher.SwitchCamera(lockOnCam);
+            }
+            else if (CinemachineCameraSwitcher.isActiveCamera(lockOnCam))
+            {
+                CinemachineCameraSwitcher.SwitchCamera(freeLookCam);
+            }
         }
     }
 
