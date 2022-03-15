@@ -31,11 +31,11 @@ public class InputManager : MonoBehaviour
     public bool rt_Input;       // Right Trigger                            // Heavy Attack
     public bool lb_Input;       // Left Bumper (Left Shoulder gamepad)      // Block
     public bool lt_Input;       // Left Trigger                             // ??
-    public bool start_Input;    // Start Button
-    public bool dpadD_Input;    // D-pad Down
-    public bool dpadU_Input;    // D-pad Up
-    public bool dpadL_Input;    // D-pad Left
-    public bool dpadR_Input;    // D-pad Right
+    public bool start_Input;    // Start Button                             // Menu
+    public bool dpadD_Input;    // D-pad Down                               // Rotate Camera To Face Back
+    public bool dpadU_Input;    // D-pad Up                                 // Rotate Camera To Face Forward
+    public bool dpadL_Input;    // D-pad Left                               // Rotate Camera To Face Right
+    public bool dpadR_Input;    // D-pad Right                              // Rotate Camera To Face Left
 
     [Header("Cameras")]
     [SerializeField] CinemachineFreeLook freeLookCam;
@@ -160,8 +160,6 @@ public class InputManager : MonoBehaviour
             playerLocomotion.HandleInteract();
 
         }
-
-
 /*        if (dpadD_Input)
         {
             if (playerManager.currentHealth > 1)
