@@ -13,8 +13,8 @@ public class PlayerManager : MonoBehaviour
     public bool isUsingRootMotion;
 
     [Header("Current Player Stats")]
-    public int currentHealth = 50;
-    public int currentStamina = 50;
+    public int currentHealth = 20;
+    public int currentStamina = 20;
     public int money = 0;
 
     [Header ("Player Stats")]
@@ -75,7 +75,7 @@ public class PlayerManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        cameraManager.HandleAllCameraMovement();
+        //cameraManager.HandleAllCameraMovement();
         isInteracting = animator.GetBool("isInteracting");
         isUsingRootMotion = animator.GetBool("isUsingRootMotion");
         playerLocomotion.isJumping = animator.GetBool("isJumping");

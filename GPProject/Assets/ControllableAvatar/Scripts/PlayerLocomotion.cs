@@ -196,6 +196,7 @@ public class PlayerLocomotion : MonoBehaviour
         {
             animatorManager.animator.SetBool("isJumping", true);
             animatorManager.PlayTargetAnimation("2Hand-Sword-Jump", false);
+            jumpHeight = 3;
             float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
             Vector3 playerVelocity = moveDirection;
             playerVelocity.y = jumpingVelocity;
@@ -208,6 +209,7 @@ public class PlayerLocomotion : MonoBehaviour
             {
                 animatorManager.animator.SetBool("isJumping", true);
                 animatorManager.PlayTargetAnimation("2Hand-Sword-Jump", false);
+                jumpHeight = 6;
                 float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
                 Vector3 playerVelocity = moveDirection;
                 playerVelocity.y = jumpingVelocity;

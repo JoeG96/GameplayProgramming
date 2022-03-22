@@ -38,6 +38,7 @@ public class CameraManager : MonoBehaviour
         FollowTarget();
         RotateCamera();
         HandleCameraCollisions();
+        HandleCameraSnapping();
     }
 
     private void FollowTarget()
@@ -80,18 +81,31 @@ public class CameraManager : MonoBehaviour
             (cameraPivot.transform.position, cameraCollisionRadius, direction, out hit, Mathf.Abs(targetPostion), collisionLayers))
         {
             float distance = Vector3.Distance(cameraPivot.position, hit.point);
-            targetPostion =- (distance - cameraCollisionOffset);
+            targetPostion -= (distance - cameraCollisionOffset);
             print("CAMERA COLLISON SPHERECAST");
         }
 
         if (Mathf.Abs(targetPostion) < minCollisionOffset)
         {
-            targetPostion = targetPostion - minCollisionOffset;
+            targetPostion -= minCollisionOffset;
         }
 
         cameraVectorPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPostion, 0.2f);
         cameraTransform.localPosition = cameraVectorPosition;
 
+    }
+
+    private void HandleCameraSnapping()
+    {
+        if (inputManager.dpadR_Input)
+        {
+            lookAngle += 90;
+        }
+
+        if(inputManager.dpadL_Input)
+        {
+            lookAngle -= 90;
+        }
     }
 
 }
