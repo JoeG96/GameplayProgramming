@@ -16,6 +16,9 @@ TagManager:
   - Enemy
   - Friendly
   - Object
+  - Checkpoint
+  - Respawn Object
+  - Platform
   layers:
   - Default
   - TransparentFX

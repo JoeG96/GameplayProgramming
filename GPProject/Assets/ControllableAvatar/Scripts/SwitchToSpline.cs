@@ -56,14 +56,15 @@ namespace PathCreation
 
         private void Update()
         {
-            if (inputManager.moveAmount > 1)
+            /*if (inputManager.moveAmount > 1)
             {
                 distanceTravelled += inputManager.moveAmount * Time.deltaTime;
             }
             else
             {
                 distanceTravelled -= inputManager.moveAmount * Time.deltaTime;
-            }    
+            } */
+            distanceTravelled += speed * Time.deltaTime;
             playerObject.transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
             //playerObject.transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
         }
