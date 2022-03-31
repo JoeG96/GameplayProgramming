@@ -13,6 +13,8 @@ namespace PathCreation
         [SerializeField] float speed = 5;
         float distanceTravelled;
 
+        private Rigidbody rigidBody;
+
 
         private void Start()
         {
@@ -21,6 +23,7 @@ namespace PathCreation
                 Debug.Log("Path creator is not null");
                 // Notifies if path changed during the game
                 pathCreator.pathUpdated += OnPathChanged;
+                rigidBody = GetComponent<Rigidbody>();
             }
         }
 
@@ -29,8 +32,8 @@ namespace PathCreation
             if (pathCreator != null)
             {
                 distanceTravelled += speed * Time.deltaTime;
-                transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
-                
+                rigidBody.MovePosition( pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction));
+                //Debug.Log(rigidBody.velocity);
                 //Remove or enable to limit rotation of path object i.e. comment out to maintain rotation
                 //transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
             }

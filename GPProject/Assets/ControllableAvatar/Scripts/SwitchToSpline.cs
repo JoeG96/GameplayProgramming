@@ -24,20 +24,21 @@ namespace PathCreation
         private PlayerLocomotion playerLocomotion;
         private InputManager inputManager;
 
+        private void Awake()
+        {
+            playerLocomotion = playerObject.GetComponent<PlayerLocomotion>();
+            inputManager = playerObject.GetComponent<InputManager>();
+            rigidBody = playerObject.GetComponent<Rigidbody>();
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (pathCreator != null)
             {
                 // Notifies if path changed during the game
                 pathCreator.pathUpdated += OnPathChanged;
-                rigidBody = playerObject.GetComponent<Rigidbody>();
-
                 splineCam.Priority = 11;
                 freeLookCam.Priority = 1;
-
-                playerLocomotion = playerObject.GetComponent<PlayerLocomotion>();
-                inputManager = playerObject.GetComponent<InputManager>();
-
             }
         }
 
@@ -56,15 +57,15 @@ namespace PathCreation
 
         private void Update()
         {
-            /*if (inputManager.moveAmount > 1)
+            if (inputManager.moveAmount > 1)
             {
-                distanceTravelled += inputManager.moveAmount * Time.deltaTime;
+                distanceTravelled += inputManager.moveAmount /* * Time.deltaTime */;
             }
             else
             {
-                distanceTravelled -= inputManager.moveAmount * Time.deltaTime;
-            } */
-            distanceTravelled += speed * Time.deltaTime;
+                distanceTravelled -= inputManager.moveAmount /* * Time.deltaTime */;
+            } 
+            //distanceTravelled += speed * Time.deltaTime;
             playerObject.transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
             //playerObject.transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
         }

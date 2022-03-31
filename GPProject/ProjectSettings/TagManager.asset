@@ -32,7 +32,7 @@ TagManager:
   - Walkable
   - Collidable
   - Interactable
-  - 
+  - Bounds Box
   - 
   - 
   - 

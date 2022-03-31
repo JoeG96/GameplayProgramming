@@ -36,17 +36,12 @@ public class PlayerCheckpoint : MonoBehaviour
         {
             spawnPoint = other.gameObject.transform.position;
             Debug.Log("Checkpoint Triggered");
-            //Debug.Log("Spawn Point: " + spawnPoint);
-            //Debug.Log("Game Object: " + gameObject.transform.position);
-
         }
 
         if (other.gameObject.CompareTag("Respawn Object"))
         {
             //spawnPoint = gameObject.transform.position;
             Debug.Log("Respawn Triggered");
-            //Debug.Log("Spawn Point: " + spawnPoint);
-            //Debug.Log("Game Object: " + gameObject.transform.position);
             respawn = true;
         }
         

@@ -184,10 +184,9 @@ public class PlayerLocomotion : MonoBehaviour
             }
             else
             {
-                transform.position = targetPosition;
+                //transform.position = targetPosition;
             }
         }
-
     }
 
     public void HandleJumping()
