@@ -8,7 +8,7 @@ public class PlayerLocomotion : MonoBehaviour
     InputManager inputManager;
     AnimatorManager animatorManager;
 
-    Vector3 moveDirection;
+    public Vector3 moveDirection;
     Transform cameraObject;
     public Rigidbody rigidBody;
 
@@ -184,10 +184,9 @@ public class PlayerLocomotion : MonoBehaviour
             }
             else
             {
-                transform.position = targetPosition;
+                //transform.position = targetPosition;
             }
         }
-
     }
 
     public void HandleJumping()

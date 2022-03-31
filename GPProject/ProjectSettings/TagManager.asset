@@ -16,6 +16,9 @@ TagManager:
   - Enemy
   - Friendly
   - Object
+  - Checkpoint
+  - Respawn Object
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -29,7 +32,7 @@ TagManager:
   - Walkable
   - Collidable
   - Interactable
-  - 
+  - Bounds Box
   - 
   - 
   - 
