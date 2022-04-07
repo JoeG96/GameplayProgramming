@@ -19,6 +19,8 @@ TagManager:
   - Checkpoint
   - Respawn Object
   - Platform
+  - Slime Spawn
+  - Weapon
   layers:
   - Default
   - TransparentFX
@@ -34,7 +36,7 @@ TagManager:
   - Interactable
   - Bounds Box
   - Obstacles
-  - 
+  - Enemy
   - 
   - 
   - 

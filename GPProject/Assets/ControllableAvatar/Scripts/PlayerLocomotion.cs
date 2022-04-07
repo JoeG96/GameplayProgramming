@@ -23,6 +23,7 @@ public class PlayerLocomotion : MonoBehaviour
     public bool isSprinting;
     public bool isGrounded;
     public bool isJumping;
+    public bool isDead;
 
     [Header("Movement Speeds")]
     public float walkingSpeed = 2f;
@@ -44,6 +45,8 @@ public class PlayerLocomotion : MonoBehaviour
 /*    [Header("Attacks")]
     private bool attack1 = false;
     private bool attack2 = false;*/
+
+
     
 
     private void Awake()
@@ -184,7 +187,7 @@ public class PlayerLocomotion : MonoBehaviour
             }
             else
             {
-                //transform.position = targetPosition;
+                //transform.position = targetPosition; // This works for solid ground but not platforms that the player needs to move on
             }
         }
     }
@@ -256,32 +259,39 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        #region Pickups
         if (other.tag == "SpeedBoost")
         {
             isSpeedBoosted = true;
             runningSpeed = runningSpeed += 3;
             sprintingSpeed = sprintingSpeed += 3;
         }
-
         if (other.tag == "Double Jump")
         {
             doubleJumpEnable = true;
         }
-
         if (other.tag == "Stamina Pickup")
         {
             playerManager.currentStamina += 25;
         }
-
         if (other.tag == "Health Pickup")
         {
             playerManager.currentHealth += 25;
         }
-
         if (other.tag == "Money Pickup")
         {
             playerManager.money += 10;
         }
+        #endregion
+
+        #region Enemy
+        if (other.tag == "Enemy")
+        {
+            animatorManager.PlayTargetAnimation("2Hand-Sword-Knockback-Back1", true, false);
+        }
+        #endregion
+
+
 
     }
 }

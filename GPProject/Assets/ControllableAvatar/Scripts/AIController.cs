@@ -6,6 +6,9 @@ using UnityEngine.AI;
 public class AIController : MonoBehaviour
 {
 
+    [SerializeField] int health = 100;
+    [SerializeField] int attackDamage = 2;
+
     [SerializeField] NavMeshAgent navMeshAgent;
     [SerializeField] float startWaitTime = 4;
     [SerializeField] float timeToRotate = 2;
@@ -33,6 +36,15 @@ public class AIController : MonoBehaviour
     private bool m_IsPatrol;
     private bool m_CaughtPlayer;
 
+    [SerializeField] GameObject player;
+    private PlayerManager playerManager;
+    private Rigidbody playerRigidBody;
+
+    private Rigidbody enemyRigidBody;
+    [SerializeField] GameObject collisionBox;
+    private BoxCollider collisionBoxCollider;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +62,12 @@ public class AIController : MonoBehaviour
         navMeshAgent.speed = speedWalk;             //  Set the navemesh speed with the normal speed of the enemy
         navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the destination to the first waypoint
 
+        playerManager = player.GetComponent<PlayerManager>();
+        playerRigidBody = player.GetComponent<Rigidbody>();
+        enemyRigidBody = GetComponentInChildren<Rigidbody>();
+
+        collisionBoxCollider = collisionBox.GetComponent<BoxCollider>();
+
     }
 
     // Update is called once per frame
@@ -63,7 +81,7 @@ public class AIController : MonoBehaviour
         }
         else
         {
-            Patroling();
+            Patrolling();
         }
     }
 
@@ -78,6 +96,24 @@ public class AIController : MonoBehaviour
             Move(speedRun);
             navMeshAgent.SetDestination(m_PlayerPosition);          //  set the destination of the enemy to the player location
         }
+
+        if (m_CaughtPlayer)
+        {
+            playerManager.TakeDamage(attackDamage);
+            //playerRigidBody.AddForce(transform.position * 10);
+            //playerRigidBody.AddForce(transform.InverseTransformDirection(enemyRigidBody.velocity) * 50);
+            m_CaughtPlayer = false;
+
+            // Move player back
+            // Get direction of enemy
+            // Apply force 
+
+
+
+
+        }
+
+
         if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)    //  Control if the enemy arrive to the player location
         {
             if (m_WaitTime <= 0 && !m_CaughtPlayer && Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) >= 6f)
@@ -96,11 +132,12 @@ public class AIController : MonoBehaviour
                     //  Wait if the current position is not the player position
                     Stop();
                 m_WaitTime -= Time.deltaTime;
+                CaughtPlayer();
             }
         }
     }
 
-    private void Patroling()
+    private void Patrolling()
     {
         if (m_PlayerNear)
         {
@@ -166,6 +203,7 @@ public class AIController : MonoBehaviour
     void CaughtPlayer()
     {
         m_CaughtPlayer = true;
+        Debug.Log("Player Caught");
     }
 
     void LookingPlayer(Vector3 player)
@@ -199,7 +237,7 @@ public class AIController : MonoBehaviour
             Vector3 dirToPlayer = (player.position - transform.position).normalized;
             if (Vector3.Angle(transform.forward, dirToPlayer) < viewAngle / 2)
             {
-                float dstToPlayer = Vector3.Distance(transform.position, player.position);          //  Distance of the enmy and the player
+                float dstToPlayer = Vector3.Distance(transform.position, player.position);          //  Distance of the enemy and the player
                 if (!Physics.Raycast(transform.position, dirToPlayer, dstToPlayer, obstacleMask))
                 {
                     m_PlayerInRange = true;             //  The player has been seeing by the enemy and then the nemy starts to chasing the player
@@ -230,5 +268,11 @@ public class AIController : MonoBehaviour
             }
         }
     }
+
+/*    private void OnCollisionEnter(Collision collision)
+    {
+        if ()
+        {        }
+    }*/
 
 }

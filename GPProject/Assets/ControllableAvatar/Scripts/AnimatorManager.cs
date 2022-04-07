@@ -96,6 +96,7 @@ public class AnimatorManager : MonoBehaviour
         }
     }
 
+    // Not used
     private void OnAnimatorIK(int layerIndex)
     {
         if (animator)
