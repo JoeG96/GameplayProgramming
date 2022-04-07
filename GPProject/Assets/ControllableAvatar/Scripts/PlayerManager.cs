@@ -29,6 +29,17 @@ public class PlayerManager : MonoBehaviour
     public HealthBar healthBar;
     public StaminaBar staminaBar;
 
+    private int damageHealthValue = 0;
+    private int damageStaminaValue = 0;
+
+    private PlayerCheckpoint playerCheckpoint;
+
+    #region Singleton
+    public static PlayerManager instance;
+    #endregion
+    public GameObject player;
+
+
     private void Awake()
     {
         inputManager = GetComponent<InputManager>();
@@ -37,6 +48,8 @@ public class PlayerManager : MonoBehaviour
         animator = GetComponent<Animator>();
         healthBar.SetMaxHealth(maxHealth);
         staminaBar.SetMaxStamina(maxStamina);
+        playerCheckpoint = GetComponent<PlayerCheckpoint>();
+        instance = this;
     }
 
     private void Update()
@@ -80,15 +93,29 @@ public class PlayerManager : MonoBehaviour
         isUsingRootMotion = animator.GetBool("isUsingRootMotion");
         playerLocomotion.isJumping = animator.GetBool("isJumping");
         animator.SetBool("isGrounded", playerLocomotion.isGrounded);
+
+        if (currentHealth <= 0)
+        {
+            //animator.SetBool("isDead", playerLocomotion.isDead);
+           
+            Invoke("Respawn", 2);
+            
+        }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damageValue)
     {
-        currentHealth -= 1;
+        currentHealth -= damageValue;
     }
 
     public void UseStamina()
     {
         currentStamina -= 1;
     }
+
+    private void Respawn()
+    {
+        playerCheckpoint.Respawn();
+    }
+
 }

@@ -19,15 +19,21 @@ public class PlayerCheckpoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.transform.position.y < -20f)
-        {
-            player.transform.position = spawnPoint;
-        }
+
         if (respawn)
         {
-            player.transform.position = spawnPoint;
-            respawn = false;
+            /*player.transform.position = spawnPoint;
+            respawn = false;*/
+            Respawn();
         }
+        else if(gameObject.transform.position.y < -20f)
+        {
+            Respawn();
+        }
+        /*if (gameObject.transform.position.y < -20f)
+        {
+            *//*player.transform.position = spawnPoint;*//*
+        }*/
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,5 +52,11 @@ public class PlayerCheckpoint : MonoBehaviour
         }
         
         
+    }
+
+    public void Respawn()
+    {
+        player.transform.position = spawnPoint;
+        respawn = false;
     }
 }
